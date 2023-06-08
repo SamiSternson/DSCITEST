@@ -21,19 +21,19 @@ class Boid(pygame.sprite.Sprite):
         self.rect=pygame.Rect((self.start_x, self.start_y), (self.width, self.height))
         self.x_update=0
         self.y_update=0
-    def draw(self, window):
-        self.rect.color=(255, 0, 0)
+    def draw(self, screen):
         self.rect.centerx+=self.x_update
         self.rect.centery+=self.y_update
-        window.blit(window, self.rect)
+        screen.blit(self.rect)
 for boid in range(10):
     boids.add(Boid(20, 20, height, width))
+boid=Boid(20, 20, height, width)
 while run:
     screen.fill(black)
     clock.tick(fps)
+    boid.draw(screen)
     for boid in boids:
         boid.draw(screen)
-    screen.blit(pygame.Rect(0, 0, 100, 100))
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             run=False
