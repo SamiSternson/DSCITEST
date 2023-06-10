@@ -6,7 +6,7 @@ width, height=700, 600
 screen=pygame.display.set_mode((width, height))
 run=True
 clock=pygame.time.Clock()
-fps=30
+fps=60
 black=(0, 0, 0)
 red=(255, 0, 0)
 boids=pygame.sprite.Group()
@@ -29,17 +29,16 @@ class Boid(pygame.sprite.Sprite):
         self.rect=img.get_rect()
         self.rect.centerx=random.randrange(0, self.screen_width)
         self.rect.centery=random.randrange(0, self.screen_height)
-        self.angle=0
+        self.angle=random.randrange(0, 360)
     def draw(self, screen):
         self.rect.centerx+=self.x_update
         self.rect.centery+=self.y_update
-        self.rotated_image=pygame.image.rotate(self.image, self.angle)
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+        self.rotated_image=pygame.transform.rotate(self.image, self.angle)
+        self.rect=self.rotated_image.get_rect(center=(self.rect.centerx, self.rect.centery))
+        screen.blit(self.rotated_image, self.rect)
     def update(self):
-        self.left=left
-        self.right=right
-        self.up=up
-        self.down=down
+        print(self.angle, self.rect.x, self.rect.y)
+        
 for i in range (3):
     boids.add(Boid(img, height, width))
 while run:
@@ -47,6 +46,7 @@ while run:
     clock.tick(fps)
     for boid in boids:
         boid.draw(screen)
+        boid.update()
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             run=False
