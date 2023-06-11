@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 pygame.init()
 #variables
 width, height=700, 600
@@ -37,7 +38,17 @@ class Boid(pygame.sprite.Sprite):
         self.rect=self.rotated_image.get_rect(center=(self.rect.centerx, self.rect.centery))
         screen.blit(self.rotated_image, self.rect)
     def update(self):
-        print(self.angle, self.rect.x, self.rect.y)
+        self.x_update=(-1*math.cos(math.radians(self.angle)))
+        self.y_update=(-1*math.sin(math.radians(self.angle)))
+        print(self.x_update, self.y_update)
+        if self.rect.centerx<=0:
+            self.rect.centerx=self.screen_width
+        elif self.rect.centerx>=self.screen_width:
+            self.rect.centerx=0
+        if self.rect.centery<=0:
+            self.rect.centery=self.screen_height
+        elif self.rect.centery>=self.screen_height:
+            self.rect.centery=0  
         
 for i in range (3):
     boids.add(Boid(img, height, width))
